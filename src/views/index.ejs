@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <title>AI Chat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="flex items-center justify-center h-screen bg-gray-100">
+    <div class="w-1/2 bg-white p-6 rounded-lg shadow-lg">
+      <h1 class="text-xl font-bold mb-4">Chat với AI</h1>
+      <input
+        id="question"
+        class="border p-2 w-full mb-4"
+        placeholder="Nhập câu hỏi..."
+      />
+      <button onclick="askAI()" class="bg-blue-500 text-white p-2 rounded">
+        Gửi
+      </button>
+      <p id="response" class="mt-4"></p>
+    </div>
+
+    <script>
+      async function askAI() {
+        const question = document.getElementById("question").value;
+        const res = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question }),
+        });
+        const data = await res.json();
+        document.getElementById("response").innerText = data.answer;
+      }
+    </script>
+  </body>
+</html>
